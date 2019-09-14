@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -35,11 +34,11 @@ public class AuthorizeService {
         GithubUser githubUser = githubProvider.getUser(accessToken);
 
         if (null != githubUser) {
-            int userId = getUserId(String.valueOf(githubUser.getId()));
+            Integer userId = getUserId(String.valueOf(githubUser.getId()));
             String token = UUID.randomUUID().toString();
             long currentTime = System.currentTimeMillis();
             // 修改token令牌
-            if (0 != userId) {
+            if (null != userId && 0 != userId) {
                 userMapper.updateUserByToken(userId, token, currentTime);
             }else {
                 User user = new User();
@@ -50,6 +49,7 @@ public class AuthorizeService {
                 user.setGmtCreate(currentTime);
                 user.setGmtModified(user.getGmtCreate());
                 user.setBio(githubUser.getBio());
+                user.setAvatarUrl(githubUser.getAvatar_url());
                 userMapper.insert(user);
             }
             // 写入session和cookie
@@ -59,7 +59,7 @@ public class AuthorizeService {
         }
     }
 
-    private int getUserId(String countId) {
+    private Integer getUserId(String countId) {
         return userMapper.selectUserByCountId(countId);
     }
 

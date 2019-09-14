@@ -6,11 +6,11 @@ import org.apache.ibatis.annotations.*;
 @Mapper
 public interface UserMapper {
 
-    @Insert("insert into user (name, count_id, token, gmt_create, gmt_modified, bio) values(#{name}, #{countId}, #{token}, #{gmtCreate}, #{gmtModified}, #{bio})")
+    @Insert("insert into user (name, count_id, token, gmt_create, gmt_modified, bio, avatar_url) values(#{name}, #{countId}, #{token}, #{gmtCreate}, #{gmtModified}, #{bio}, #{avatarUrl})")
     void insert(User user);
 
     @Select("select id from user where count_id = #{countId}")
-    int selectUserByCountId(String countId);
+    Integer selectUserByCountId(String countId);
 
     @Select("select * from user where token = #{token}")
     User findByToken(@Param("token") String token);

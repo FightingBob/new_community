@@ -24,7 +24,7 @@ public class IndexService {
 
     public User getUser(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (null != cookies) {
+        if (null != cookies && 0 != cookies.length) {
             for (Cookie cookie : cookies) {
                 if ("token".equals(cookie.getName())) {
                     String token = cookie.getValue();
