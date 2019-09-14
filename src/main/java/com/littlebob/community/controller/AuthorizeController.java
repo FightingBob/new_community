@@ -1,20 +1,14 @@
 package com.littlebob.community.controller;
 
-import com.littlebob.community.dto.AccessTokenDTO;
-import com.littlebob.community.dto.GithubUser;
-import com.littlebob.community.mapper.UserMapper;
-import com.littlebob.community.model.User;
-import com.littlebob.community.provider.GithubProvider;
+import com.littlebob.community.service.AuthorizeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -29,39 +23,15 @@ public class AuthorizeController {
     private String redirectUrl;
 
     @Autowired
-    private GithubProvider githubProvider;
-
-    @Autowired
-    private UserMapper userMapper;
+    private AuthorizeService authorizeService;
 
     @GetMapping("/callback")
     public String callback(@RequestParam(name = "code") String code,
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,
                            HttpServletResponse response) {
-        AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
-        accessTokenDTO.setClient_id(clientId);
-        accessTokenDTO.setClient_secret(clientSecret);
-        accessTokenDTO.setCode(code);
-        accessTokenDTO.setRedirect_url(redirectUrl);
-        accessTokenDTO.setState(state);
-        String accessToken = githubProvider.getAccessToken(accessTokenDTO);
-        GithubUser githubUser = githubProvider.getUser(accessToken);
-        if (null != githubUser) {
-            User user = new User();
-            user.setName(githubUser.getName());
-            user.setCountId(String.valueOf(githubUser.getId()));
-            String token = UUID.randomUUID().toString();
-            user.setToken(token);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
-            // 写入session
-            request.getSession().setAttribute("user", githubUser);
-            response.addCookie(new Cookie("token", token));
-            return "redirect:/";
-        }else {
-            return "redirect:/";
-        }
+        authorizeService.callback(clientId , clientSecret, code, redirectUrl, state, request, response);
+        return "redirect:/";
+
     }
 }
