@@ -1,6 +1,7 @@
 package com.littlebob.community.controller;
 
 import com.littlebob.community.service.PublishService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,10 @@ public class PublishController {
     private PublishService publishService;
 
     @GetMapping("/publish")
-    public String publish() {
+    public String publish(HttpServletRequest request, Model model) {
+        if (publishService.hasLogined(request) == false) {
+            model.addAttribute("error", "未登录，请先登录");
+        }
         return "publish";
     }
 
@@ -27,14 +31,22 @@ public class PublishController {
                             @RequestParam(name = "tag") String tag,
                             HttpServletRequest request,
                             Model model) {
-        int status = publishService.publish(title, description, tag, request);
-        if (status == 1) {
-            return "redirect:/";
-        }
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
-        model.addAttribute("error", "出现错误了！");
+        if (StringUtils.isBlank(title)) {
+            model.addAttribute("error", "标题不能为空");
+        }else if (StringUtils.isBlank(description)) {
+            model.addAttribute("error", "描述不能为空");
+        }else if (StringUtils.isBlank(tag)) {
+            model.addAttribute("error", "标签不能为空");
+        }else {
+            int status = publishService.publish(title, description, tag, request);
+            if (status == 1) {
+                return "redirect:/";
+            }
+            model.addAttribute("error", "未登录，请先登录！");
+        }
         return "publish";
     }
 }

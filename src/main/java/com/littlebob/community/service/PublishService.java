@@ -39,4 +39,8 @@ public class PublishService {
         questionMapper.insert(question);
         return success;
     }
+
+    public boolean hasLogined(HttpServletRequest request) {
+        return indexService.hasLogined(request);
+    }
 }

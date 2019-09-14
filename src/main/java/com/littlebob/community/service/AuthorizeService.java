@@ -24,7 +24,7 @@ public class AuthorizeService {
 
     public void callback(String clientId, String clientSecret, String code,
                          String redirectUrl, String state,
-                         HttpServletRequest request, HttpServletResponse response) {
+                         HttpServletResponse response) {
         AccessTokenDTO accessTokenDTO = new AccessTokenDTO();
         accessTokenDTO.setClient_id(clientId);
         accessTokenDTO.setClient_secret(clientSecret);

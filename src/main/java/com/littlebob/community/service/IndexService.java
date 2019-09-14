@@ -34,4 +34,11 @@ public class IndexService {
         }
         return null;
     }
+
+    public boolean hasLogined(HttpServletRequest request) {
+        if (null != getUser(request)) {
+            return true;
+        }
+        return false;
+    }
 }

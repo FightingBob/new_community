@@ -30,7 +30,7 @@ public class AuthorizeController {
                            @RequestParam(name = "state") String state,
                            HttpServletRequest request,
                            HttpServletResponse response) {
-        authorizeService.callback(clientId , clientSecret, code, redirectUrl, state, request, response);
+        authorizeService.callback(clientId , clientSecret, code, redirectUrl, state, response);
         return "redirect:/";
 
     }

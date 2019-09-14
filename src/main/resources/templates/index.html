@@ -33,9 +33,10 @@
                 <ul class="nav navbar-nav navbar-right">
 
                     <li th:if="${null == session.user}"><a href="https://github.com/login/oauth/authorize?client_id=db8016f04c84c5e2e451&redirect_uri=http://localhost:8887/callback&state=1">登录</a></li>
+                    <li th:if="${null != session.user}"><a href="/publish"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 问题</a></li>
                     <li class="dropdown" th:if="${null != session.user}">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                           aria-expanded="false" th:text="${session.user.getName()}"> <span class="caret"></span></a>
+                           aria-expanded="false">[[${session.user.getName()}]]<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">消息中心</a></li>
                             <li><a href="#">个人资料</a></li>

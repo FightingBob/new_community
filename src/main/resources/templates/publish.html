@@ -54,13 +54,17 @@
             <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 publish-left">
                 <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
                 <hr>
+                <div class="alert alert-danger" role="alert" id="publishBlank" hidden>
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    <span class="sr-only">Error:</span>
+                    <span id="publishBlankTip"></span>
+                </div>
                 <div class="alert alert-danger" role="alert" th:if="${null != error}" id="publishError">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     <span class="sr-only">Error:</span>
                     [[${error}]]
                 </div>
-
-                <form action="/publish" method="post">
+                <form action="/publish" method="post" onsubmit="return checkPublishForm();">
                     <div class="form-group">
                         <label for="title">问题标题（简明扼要）：</label>
                         <input type="text" class="form-control" id="title" name="title" placeholder="问题标题……" th:value="${title}">
