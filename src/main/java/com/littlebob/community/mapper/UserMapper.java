@@ -3,6 +3,8 @@ package com.littlebob.community.mapper;
 import com.littlebob.community.model.User;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
 
@@ -17,4 +19,7 @@ public interface UserMapper {
 
     @Update("update user set token = #{token}, gmt_modified = #{gmtModified} where id = #{id}")
     void updateUserByToken(@Param("id") int id, @Param("token") String token, @Param("gmtModified") long modified);
+
+    @Select("select * from user where id = #{id}")
+    User select(@Param("id") int id);
 }

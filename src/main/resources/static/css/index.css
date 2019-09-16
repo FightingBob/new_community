@@ -1,7 +1,33 @@
+a {
+    text-decoration: none;
+}
+
 . user-avatar {
     display: inline-block;
     overflow: hidden;
     line-height: 1;
     vertical-align: middle;
     border-radius: 3px;
+}
+
+.avatar {
+    height: 50px;
+    width: 50px;
+}
+
+.text-desc {
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
+
+.username {
+    color: #666;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: normal;
+}
+
+.bottom-page {
+    float: right;
 }

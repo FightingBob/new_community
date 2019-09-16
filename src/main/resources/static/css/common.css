@@ -1,0 +1,21 @@
+body {
+    background-color: #f5f5f5;
+}
+
+.main {
+    margin:10px 30px 0px 30px;
+    background: #ffffff;
+}
+
+.publish-left {
+    /*background: #ffffff;*/
+    /*height: 300px;*/
+    border-right: solid 1px #f5f5f5;
+}
+
+.publish-right {
+    /*background: #ffffff;*/
+    /*height: 300px;*/
+    margin-left: -1px;
+    border-left: solid 1px #f5f5f5;
+}

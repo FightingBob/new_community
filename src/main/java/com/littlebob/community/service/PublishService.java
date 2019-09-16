@@ -37,10 +37,15 @@ public class PublishService {
         question.setCommentCount(0);
         question.setViewCount(0);
         questionMapper.insert(question);
+        reSetPagination(request);
         return success;
     }
 
     public boolean hasLogined(HttpServletRequest request) {
         return indexService.hasLogined(request);
+    }
+
+    private void reSetPagination(HttpServletRequest request) {
+        request.getSession().setAttribute("pagination", null);
     }
 }
